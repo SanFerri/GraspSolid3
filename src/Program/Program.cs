@@ -26,9 +26,22 @@ namespace Full_GRASP_And_SOLID
             recipe.AddStep(new Step(GetProduct("Café"), 100, GetEquipment("Cafetera"), 120));
             recipe.AddStep(new Step(GetProduct("Leche"), 200, GetEquipment("Hervidor"), 60));
 
-            AllInOnePrinter printer = new AllInOnePrinter();
-            printer.PrintRecipe(recipe, Destination.Console);
-            printer.PrintRecipe(recipe, Destination.File);
+            /// <summary>
+            /// En vez de tener un mismo printer con operaciones no polimórficas, tenemos un
+            /// tipo IPrinter, al cual se le asigna una instancia de ConsolePrinter y luego de
+            /// FilePrinter con una operación polimórfica (PrintRecipe).
+            /// </summary>
+    
+            IPrinter printer;
+            printer = new ConsolePrinter();
+            printer.PrintRecipe(recipe);
+            printer = new FilePrinter();
+            printer.PrintRecipe(recipe);
+
+            /// <summary>
+            /// Ahora no es necesario el uso de Destino, y la responsabilidad de designar el destino esta
+            /// en IPrinter. Por polimorfismo.
+            /// </summary>
         }
 
         private static void PopulateCatalogs()
